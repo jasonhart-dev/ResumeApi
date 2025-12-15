@@ -1,0 +1,27 @@
+﻿## Build results
+bin/
+obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio cache
+.vs/
+
+## ASP.NET Core
+appsettings.Development.json
+appsettings.Production.json
+
+## Certificates
+*.pfx
+*.pem
+
+## Logs
+*.log
+
+## OS files
+.DS_Store
+Thumbs.db
