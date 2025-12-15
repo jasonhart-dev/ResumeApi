@@ -1,0 +1,20 @@
+﻿@page
+@model ResumeApi.Pages.IndexModel
+@{
+	ViewData["Title"] = "Welcome";
+}
+
+<h2>View Resume</h2>
+
+<form method="post">
+	@Html.AntiForgeryToken()
+	<label>Email address:</label></<br />
+	<input asp-for="Email" name="Email" type="email" required />
+	</<br /></<br />
+	<button type="submit">Continue</button>
+</form>
+
+@if (!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+	<p style="color:green; font-weight:bold"><strong>@TempData["Message"]</strong></p>
+}
