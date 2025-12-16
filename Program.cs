@@ -12,6 +12,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IResumeService, ResumeService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
