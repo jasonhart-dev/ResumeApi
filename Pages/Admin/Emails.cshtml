@@ -1,0 +1,23 @@
+﻿@page
+@model ResumeApi.Pages.Admin.AdminEmailsModel
+
+@{
+	ViewData["Title"] = "Captured Emails";
+}
+
+
+<h2>Captured Emails</h2>
+
+@if (!Model.Emails.Any())
+{
+	<p>No emails caputred yet.</p>
+}
+else
+{
+	<ul>
+		@foreach (var email in Model.Emails)
+		{
+			<li>@email</li>
+		}
+	</ul>
+}
