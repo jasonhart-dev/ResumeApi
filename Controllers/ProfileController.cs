@@ -18,7 +18,7 @@ namespace ResumeApi.Controllers
         [HttpGet]
         public ActionResult<ProfileDto> Get()
         {
-            return Ok(_service.GetProfile());
+            return Ok(_service.GetSummary());
         }
     }
 }

@@ -4,8 +4,10 @@ namespace ResumeApi.Services;
 
     public interface IResumeService
     {
-        ProfileDto GetProfile();
-        IEnumerable<SkillDto> GetSkills();
-        IEnumerable<ExperienceDto> GetExperience();
+        ResumeSummaryDto GetSummary();
+        IReadOnlyList<SkillGroupDto> GetSkills();
+        IReadOnlyList<ExperienceDto> GetExperience();
+        ExperienceDto? GetExperienceById(int id);
+        EducationDto GetEducation();
     }
 
