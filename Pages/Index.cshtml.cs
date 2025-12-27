@@ -29,8 +29,6 @@ public class IndexModel : PageModel
 
         bool added = _emailService.Store(Email);
 
-       // _emailService.Store(Email);
-
         _emailService.GetAll();
 
         if (added)
@@ -39,9 +37,10 @@ public class IndexModel : PageModel
         }
         else
             { Message =  $"Email already registered: {Email}";
+            return RedirectToPage();
         }
         Email = string.Empty;
 
-        return RedirectToPage();
+        return RedirectToPage("/Resume");
     }
 }

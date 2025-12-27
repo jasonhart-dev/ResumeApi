@@ -1,4 +1,7 @@
+using Microsoft.Extensions.Options;
 using ResumeApi.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Reader;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,17 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IResumeService, ResumeService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+});
+
+builder.Services.AddSingleton<IHireMeService, HireMeService>();
+
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

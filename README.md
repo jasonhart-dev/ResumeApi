@@ -1,72 +1,143 @@
-﻿# ResumeApi Sample Project
+﻿# ResumeApi
 
-## Overview
-This is a sample ASP.NET Core 10 Razor Pages project designed for interview purposes.  
-It demonstrates:
-- Razor Pages form with validation
-- Email capture with duplicate prevention
-- In-memory storage using a service layer
-- Admin page to view captured emails
-- API endpoints for external consumption
-- Dependency Injection and clean architecture
-
----
-
-## Project Structure
-Controllers/ # API controllers
-Pages/ # Razor Pages UI
-Services/ # Business logic and storage
-Program.cs # App startup and DI
-
----
-
-## How to Run
-
-1. Open in Visual Studio 2022 or later
-2. Restore NuGet packages
-3. Press F5 to run
-4. Visit: 
-   - `https://localhost:7117/` → Email capture page
-   - `https://localhost:7117/admin/emails` → Admin view
-   - `https://localhost:7117/api/emails` → API endpoint
+An interview-ready ASP.NET Core application that demonstrates API design, Razor Pages UI, versioned endpoints, and clean separation of concerns using a realistic resume-driven use case.
 
 ---
 
 ## Features
 
-- **Email capture**
-  - Validates format
-  - Prevents duplicates
-- **Admin page**
-  - View all captured emails
-  - Read-only
-- **API**
-  - `GET /api/emails` → List of emails
-  - `POST /api/emails` → Capture email (returns success / duplicate message)
-- **Architecture**
-  - Separation of concerns (UI, service, API)
-  - Dependency Injection (constructor injection)
-  - PRG pattern for Razor Page submission
-- **Resume details  IN PROGRESS**
-	-Basic outline of my resume, will update with more detail and be searchable by job via API
+### UI (Razor Pages)
+- Email capture entry page
+- Resume display page
+- Professional Summary and Experience loaded via API calls
+- “Hire Me” interaction flow (Company + Job Title)
+- Contextual banner showing which role the resume is being viewed for
+- Logout action that resets view context and returns to entry page
+
+### API
+- Versioned REST APIs (/api/v2/...)
+- Resume data endpoints (read-only)
+- Email capture endpoint
+- Hire Me submission endpoint
+- Swagger / OpenAPI enabled
 
 ---
 
-## API Documentation (Swagger)
+## Application Flow
 
-This project includes Swagger for API exploration.  
-
-- Visit `https://localhost:7117/swagger` to see the interactive API UI.
-- You can test:
-  - `GET /api/emails` → List captured emails
-  - `POST /api/emails` → Capture an email (returns success / duplicate message)
-- Swagger automatically documents endpoints and request/response formats.
+1. User lands on the Index page
+2. Enters an email address
+3. Redirected to Resume page
+4. Resume data is retrieved via API calls
+5. User can click Hire Me
+6. Company + Job Title are submitted
+7. Resume page shows “Viewing for: JobTitle @ Company”
+8. User may Log Out to reset context
 
 ---
 
-## Notes
+## Tech Stack
 
-- Emails are stored **in-memory**. Restarting the app clears data.
-- Duplicate emails are prevented at the service layer, so all access points respect the rule.
-- Designed to be **interview-ready** and easy to extend (e.g., swap in database).
+- ASP.NET Core
+- Razor Pages
+- Web API
+- Swagger / OpenAPI
+- Dependency Injection
+- IHttpClientFactory
+- In-memory services (no database yet)
 
+---
+
+## Running Locally
+
+### Prerequisites
+- .NET SDK installed
+- Visual Studio 2022 or newer (optional)
+
+### Run
+
+From Visual Studio:
+- Press F5
+
+Or from the command line:
+dotnet run
+
+### Local URLs
+- Index page: https://localhost:<port>/
+- Resume page: https://localhost:<port>/Resume
+- Swagger UI: https://localhost:<port>/swagger
+
+---
+
+## API Endpoints
+
+### Resume (v2)
+- GET /api/v2/resume/summary
+- GET /api/v2/resume/experience
+- GET /api/v2/resume/experience/{id}
+- GET /api/v2/resume/skills
+- GET /api/v2/resume/education
+
+### Email Capture
+- POST /api/emails
+- GET /api/emails
+
+### Hire Me
+- POST /api/v2/hireme
+
+Example request body:
+{
+  "company": "Acme Corp",
+  "jobTitle": "Senior Software Engineer"
+}
+
+---
+
+## Swagger
+ 
+Local:
+https://localhost:<port>/swagger
+
+After deployment:
+https://<your-app>.azurewebsites.net/swagger
+
+---
+
+## Postman
+
+You can call all APIs using Postman.
+
+Example:
+GET https://<your-app>.azurewebsites.net/api/v2/resume/summary
+
+Import Swagger into Postman:
+https://<your-app>.azurewebsites.net/swagger/v1/swagger.json
+
+---
+
+## Deployment (Azure)
+
+This application is designed to be deployed to Azure App Service.
+
+After deployment:
+- App URL: https://<your-app>.azurewebsites.net
+- Swagger UI available publicly
+- APIs accessible via browser or Postman
+
+Note: The app currently uses in-memory storage. Restarting the app clears data.
+
+---
+
+## Future Enhancements
+
+###- Persist data using SQLite or SQL Server
+###- Add authentication
+###- Improve UI styling with Bootstrap or React
+###- Add admin dashboard for Hire Me submissions
+
+---
+
+## Author
+
+Jason Hart
+Senior Software Engineer

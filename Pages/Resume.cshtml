@@ -1,0 +1,102 @@
+﻿@page
+@model ResumeApi.Pages.ResumeModel
+<h1>@Model.Summary?.Name</h1>
+<h3>@Model.Summary?.Title</h3>
+
+<p>@Model.Summary?.ProfessionalSummary</p>
+
+<hr />
+
+<h2>Professional Experience</h2>
+
+@{
+	var viewingFor = TempData["ViewingFor"] as string;
+}
+
+@if (TempData["Message"] is string msg)
+{
+	<p style="color:green; font-weight:bold">@msg</p>
+}
+
+<ul>
+	@if (!string.IsNullOrWhiteSpace(viewingFor))
+	{
+			<li>
+			<strong>New Role!!</strong> <br />
+			<ul>
+				@foreach (var item in viewingFor.Split("@"))
+				{
+					@item
+					<br />
+				}
+			</ul>
+		</li>
+	}
+
+	@foreach(var exp in Model.Experiences)
+	{
+		<li>
+			<strong> @exp.Title</strong> - @exp.Company<br />
+			<em>@exp.DateRange</em><br/>
+			@if (exp.Responsibilities != null && exp.Responsibilities.Any())
+			{
+			<details>
+				<summary>View Responsibility Details</summary>
+				<ul>
+					@foreach (var item in exp.Responsibilities)
+					{
+						<li>@item</li>
+					}
+				</ul>
+
+			</details>
+			}
+			@if (exp.Environment != null && exp.Environment.Any())
+			{
+			<details>
+				<summary>View Environment Details</summary>
+				<ul>
+					@foreach (var item in exp.Environment)
+					{
+						<li>@item</li>
+					}
+				</ul>
+			</details>
+			}
+		</li>
+	}
+</ul>
+
+<hr />
+
+<form method="post" action="/Resume?handler=ShowHireMe">
+	@Html.AntiForgeryToken()
+	<button type="submit">Hire Me</button>
+</form>
+
+@if (Model.ShowHireMeForm)
+{
+	<hr />
+	<h3>Tell me about the opportunity</h3>
+
+	<form method="post" action="?handler=HireMe">
+		@Html.AntiForgeryToken()
+
+		<label>Company</label><br />
+		<input name="Company" value="@Model.Company" /><br /><br />
+
+		<label>Job Title</label><br />
+		<input name="JobTitle" value="@Model.JobTitle" /><br /><br />
+
+		<button type="submit">
+			Submit
+		</button>
+
+	</form>
+}
+<form method="post" action="?handler=Logout" style="margin-top:20px;">
+	@Html.AntiForgeryToken()
+	<button type="submit">Log Out</button>
+</form>
+
+
