@@ -33,6 +33,7 @@ An interview-ready ASP.NET Core application that demonstrates API design, Razor 
 6. Company + Job Title are submitted
 7. Resume page shows “Viewing for: JobTitle @ Company”
 8. User may Log Out to reset context
+9. About me page
 
 ---
 
@@ -99,7 +100,7 @@ Local:
 https://localhost:<port>/swagger
 
 After deployment:
-https://<your-app>.azurewebsites.net/swagger
+https://hart-resume-api.azurewebsites.net/swagger
 
 ---
 
@@ -108,10 +109,10 @@ https://<your-app>.azurewebsites.net/swagger
 You can call all APIs using Postman.
 
 Example:
-GET https://<your-app>.azurewebsites.net/api/v2/resume/summary
+GET https://hart-resume-api.azurewebsites.net/api/v2/resume/summary
 
 Import Swagger into Postman:
-https://<your-app>.azurewebsites.net/swagger/v1/swagger.json
+https://hart-resume-api.azurewebsites.net/swagger/v1/swagger.json
 
 ---
 
@@ -120,20 +121,29 @@ https://<your-app>.azurewebsites.net/swagger/v1/swagger.json
 This application is designed to be deployed to Azure App Service.
 
 After deployment:
-- App URL: https://<your-app>.azurewebsites.net
+- App URL: https://hart-resume-api.azurewebsites.net
 - Swagger UI available publicly
 - APIs accessible via browser or Postman
 
-Note: The app currently uses in-memory storage. Restarting the app clears data.
+Note: The app currently uses in-memory storage. Restarting the app clears data. This is done every 6 hours via Azure Automation PowerShell script.
+
+### Deployment URLs
+- Index page: https://hart-resume-api.azurewebsites.net/
+- Resume page: https://hart-resume-api.azurewebsites.net/Resume
+- Swagger UI: https://hart-resume-api.azurewebsites.net/swagger
 
 ---
 
 ## Future Enhancements
 
-###- Persist data using SQLite or SQL Server
-###- Add authentication
 ###- Improve UI styling with Bootstrap or React
-###- Add admin dashboard for Hire Me submissions
+###- Add a /api/meta endpoint describing the project, tech stack, and useful links
+###- Automatic reply to captured emails
+###- Add unit tests to improve code quality and reliability
+###- Structured logging to capture application behavior and errors
+###- Graceful retry handling for transient API failures
+###- Improve code readability through intentional documentation and clear naming
+###- Persist data using SQLite or SQL Server
 
 ---
 

@@ -46,7 +46,6 @@ namespace ResumeApi.Pages
             await LoadResumeAsync();
             ShowHireMeForm = true;
 
-            TempData["Message"] = "Hire Me form opened."; // optional
             return Page();
         }
 
