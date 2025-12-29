@@ -24,17 +24,15 @@ namespace ResumeApi.Pages
         {
             _httpClientFactory = httpClientFactory;
         }
-
+        private string GetBaseUrl() => $"{Request.Scheme}://{Request.Host}";
         private async Task LoadResumeAsync()
         {
             var client = _httpClientFactory.CreateClient();
 
-            // TODO: can keep localhost URLs for now, but relative URLs are better later
-            Summary = await client.GetFromJsonAsync<ResumeSummaryDto>(
-                "https://localhost:7117/api/v2/resume/summary");
+            Summary = await client.GetFromJsonAsync<ResumeSummaryDto>($"{GetBaseUrl()}/api/v2/resume/summary");
 
             Experiences = await client.GetFromJsonAsync<List<ExperienceDto>>(
-                "https://localhost:7117/api/v2/resume/experience")
+                $"{GetBaseUrl()}/api/v2/resume/experience")
                 ?? new List<ExperienceDto>();
         }
 
@@ -42,7 +40,6 @@ namespace ResumeApi.Pages
         {
             await LoadResumeAsync();
         }
-
         
         public async Task<IActionResult> OnPostShowHireMeAsync()
         {
@@ -71,7 +68,7 @@ namespace ResumeApi.Pages
                 Company = Company!,
                 JobTitle = JobTitle!
             };
-            var response = await client.PostAsJsonAsync("https://localhost:7117/api/v2/hireme", request);
+            var response = await client.PostAsJsonAsync($"{GetBaseUrl()}/api/v2/hireme", request);
 
             if (response.IsSuccessStatusCode)
             {
