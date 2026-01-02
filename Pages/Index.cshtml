@@ -1,126 +1,214 @@
 ﻿@page
 @model ResumeApi.Pages.IndexModel
 @{
-	ViewData["Title"] = "Welcome";
+    ViewData["Title"] = "Welcome";
+    var emailSubject = Uri.EscapeDataString("Home Page Inquery");
 }
 
-<div class="text-center mt-5">
-	<h1 class="display-5">Jason Hart's Resume API Demo Applicatoion</h1>
-	<p class="lead" mt-3>
-		A C# / ASP.NET Core portfolio project showcasing REST APIs, Swagger documentation,
-		and a clean resume-driven web interface.
-	</p>
+<!-- HERO (Portfolio Bold) -->
+<section class="bg-dark text-light py-5 rounded-3 shadow-sm">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-2">Jason Hart's Resume API Demo Application</h1>
+        <p class="lead text-secondary mt-3 mb-4">
+            A C# / ASP.NET Core portfolio project showcasing REST APIs, Swagger documentation,
+            and a clean resume-driven web interface.
+        </p>
 
-</div>
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+            <a class="btn btn-primary btn-lg px-4" href="/Resume">View Resume</a>
+            <a class="btn btn-outline-light btn-lg px-4" href="/swagger">Swagger API</a>
+            <a class="btn btn-outline-light btn-lg px-4" href="/About">About Me</a>
+            <a class="btn btn-outline-light btn-lg px-4" href="https://github.com/jasonhart-dev/ResumeApi" target="_blank">GitHub</a>
+            <a class="btn btn-outline-light btn-lg px-4" href="/api/meta" target="_blank">API Meta</a>
 
-<p class="mt-2">
-	Contact me!
-	<a href="mailto:j24hart@gmail.com">
-		j24hart@gmail.com
-	</a>
-</p>
+        </div>
+    </div>
+</section>
 
- <a href="/files/JasonHartResume12-29-25API.docx" download>
-     Download Resume (DOCX)
- </a>
+<!-- QUICK CONTACT / DOWNLOAD -->
+<section class="container mt-5">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Contact me!</h2>
+                    <p class="mb-3">
+                        <a href="mailto:j24hart@gmail.com?subject=@emailSubject" class="link-primary fw-semibold">j24hart@gmail.com</a>
+                    </p>
 
-<h2>Why This Project?</h2>
-<p>
-	This site demonstrates modern .NET API development by exposing resume data
-	through versioned REST endpoints while also providing a simple UI for recruiters.
-</p>
+                    <a class="btn btn-outline-primary" href="/files/Jason_Hart_Resume_12_30_API.docx" download>
+                        Download Resume (DOCX)
+                    </a>
+                </div>
+            </div>
+        </div>
 
-<ul>
-	<li>ASP.NET Core Web API</li>
-	<li>API versioning (v2)</li>
-	<li>Swagger / OpenAPI documentation</li>
-	<li>REST endpoints for resume content</li>
-	<li>Recruiter inquiry POST endpoint</li>
-	<li>Razor Pages front-end</li>
-	<li>GitHub source control with feature branching and incremental commits</li>
-</ul>
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Why This Project?</h2>
+                    <p class="text-muted mb-3">
+                        This site demonstrates modern .NET API development by exposing resume data
+                        through versioned REST endpoints while also providing a simple UI for recruiters.
+                    </p>
 
-<h2>How to Explore This Site?</h2>
-<p>
-	This site demonstrates modern .NET API development by exposing resume data
-	through versioned REST endpoints while also providing a simple UI for recruiters.
-</p>
+                    <ul class="mb-0">
+                        <li>ASP.NET Core Web API with versioned endpoints (v2)</li>
+                        <li>Self-describing API metadata endpoint (<code>/api/meta</code>)</li>
+                        <li>REST endpoints exposing resume and recruiter interaction data</li>
+                        <li>Swagger / OpenAPI documentation for interactive API testing</li>
+                        <li>Razor Pages UI enhanced with Bootstrap for a modern, responsive experience</li>
+                        <li>Intentional UX patterns (gated access, sticky actions, progressive disclosure)</li>
+                        <li>Admin view for captured recruiter interest (in-memory, ephemeral storage)</li>
+                        <li>GitHub source control with incremental, feature-focused commits</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<ul>
-	<li><a class="btn btn-primary m-1" href="/Resume">View Resume</a> – Browse resume content through the UI</li>
-	<li><a class="btn btn-outline-secondary m-1" href="/swagger">Swagger API</a> – Test API endpoints directly in your browser</li>
-	<li><a class="btn btn-outline-secondary m-1" href="https://github.com/jasonhart-dev/ResumeApi" target="_blank">GitHub</a> – Review the full source code</li>
-	<li><a class="btn btn-primary m-1" href="/About">About Me</a> – A little more info about me!</li>
-</ul>
+<!-- HOW TO EXPLORE -->
+<section class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5 mb-3">How to Explore This Site?</h2>
+            <p class="text-muted">
+                This site demonstrates modern .NET API development by exposing resume data
+                through versioned REST endpoints while also providing a simple UI for recruiters.
+            </p>
 
-<h2>Thank you</h2>
-<p>
-	This project reflects my background building, modernizing, and supporting
-	production .NET applications and APIs.
+            <ul class="list-unstyled mb-0">
+                <li class="mb-2">
+                    <a class="btn btn-primary btn-sm me-2" href="/Resume">View Resume</a>
+                    <span class="text-muted">– Browse resume content through the UI</span>
+                </li>
+                <li class="mb-2">
+                    <a class="btn btn-outline-secondary btn-sm me-2" href="/swagger">Swagger API</a>
+                    <span class="text-muted">– Test API endpoints directly in your browser</span>
+                </li>
+                <li class="mb-2">
+                    <a class="btn btn-outline-secondary btn-sm me-2" href="https://github.com/jasonhart-dev/ResumeApi" target="_blank">GitHub</a>
+                    <span class="text-muted">– Review the full source code</span>
+                </li>
+                <li class="mb-2">
+                    <a class="btn btn-primary btn-sm me-2" href="/About">About Me</a>
+                    <span class="text-muted">– A little more info about me!</span>
+                </li>
+                <li class="mb-2">
+                    <a class="btn btn-outline-secondary btn-sm me-2" href="/api/meta" target="_blank">API Meta</a>
+                    <span class="text-muted">– Quick app details + links in JSON</span>
+                </li>
 
-	Feel free to explore the code, test the endpoints, or reach out directly.
-</p>
+            </ul>
+        </div>
+    </div>
+</section>
 
-<div class="alert alert-light mt-4" role="alert" style="max-width: 760px;">
-	<strong>Email Access Notice - NOT REQUIRED</strong><br />
-	This site uses a lightweight email entry instead of a full login.
-	Entering your email allows access to the resume and helps track genuine interest.
-	Emails are stored temporarily and are not shared or used for marketing.
-</div>
-<details class="mt-3" style="max-width: 760px;">
-	<summary class="text-secondary" style="cursor: pointer;">
-		Technical details
-	</summary>
+<!-- THANK YOU + EMAIL NOTICE -->
+<section class="container mt-4">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Thank you</h2>
+                    <p class="text-muted mb-0">
+                        This project reflects my background building, modernizing, and supporting
+                        production .NET applications and APIs.
+                        <br /><br />
+                        Feel free to explore the code, test the endpoints, or reach out directly.
+                    </p>
+                </div>
+            </div>
+        </div>
 
-	<div class="mt-2 text-muted">
-		<p>
-			This site intentionally avoids a full authentication system.
-			A simple email entry is used to gate resume access and reduce friction.
-		</p>
+        <div class="col-lg-6">
+            <div class="alert alert-light shadow-sm h-100 mb-0" role="alert">
+                <strong>Email Access Notice - NOT REQUIRED</strong><br />
+                This site uses a lightweight email entry instead of a full login.
+                Entering your email allows access to the resume and helps track genuine interest.
+                Emails are stored temporarily and are not shared or used for marketing.
+            </div>
 
-		<p>
-			Emails are stored in memory only and cleared automatically when the service restarts.
-			The application is recycled every six hours via an automated Azure schedule.
-		</p>
-	</div>
-</details>
+            <details class="mt-3">
+                <summary class="text-secondary" style="cursor: pointer;">
+                    Technical details
+                </summary>
 
-<br />
+                <div class="mt-2 text-muted">
+                    <p>
+                        This site intentionally avoids a full authentication system.
+                        A simple email entry is used to gate resume access and reduce friction.
+                    </p>
 
-<form method="post">
-	@Html.AntiForgeryToken()
-	<label>Email address:</label></<br />
-	<input asp-for="Email" name="Email" type="email" required />
-	</<br /></<br />
-	<button type="submit">Continue</button>
-</form>
+                    <p class="mb-0">
+                        Emails are stored in memory only and cleared automatically when the service restarts.
+                        The application is recycled every six hours via an automated Azure schedule.
+                    </p>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
 
-<div class="mt-3">
-<a class="btn btn-outline-secondary m-1" href="/admin/emails">Admin Email Capture Page</a>
-</div>
+<!-- EMAIL FORM -->
+<section class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5 mb-3">Access</h2>
 
-@if (!string.IsNullOrEmpty(TempData["Message"] as string))
-{
-	<p style="color:green; font-weight:bold"><strong>@TempData["Message"]</strong></p>
-}
+            <form method="post" class="row g-3">
+                @Html.AntiForgeryToken()
 
+                <div class="col-md-8">
+                    <label class="form-label">Email address:</label>
+                    <input asp-for="Email" name="Email" type="email" class="form-control" required />
+                </div>
 
-<h2>What's next?</h2>
-<p>
-	I will continue to update this site while I search for my next opportunity.
-	Here’s what you can expect—feel free to reach out with suggestions or a job opportunity!
-</p>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Continue</button>
+                </div>
+            </form>
 
-<ul>
-	<li>Front-end refresh using Bootstrap for a cleaner, mobile-friendly UI.
-		<ul> <li>(This layout is garbage, focuing on features at this time instead of UI\UX)</li> </ul>
-	</li>
-	<li>Add a <code>/api/meta</code> endpoint describing the project, tech stack, and useful links</li>
-	<li>Automatic reply to captured emails</li>
-	<li>Add unit tests to improve code quality and reliability</li>
-	<li>Structured logging to capture application behavior and errors</li>
-	<li>Graceful retry handling for transient API failures</li>
-	<li>Improve code readability through intentional documentation and clear naming</li>
-	<li>Persist data using SQLite or SQL Server</li>
+            <div class="mt-3">
+                <a class="btn btn-outline-secondary" href="/admin/emails">Admin Email Capture Page</a>
+            </div>
 
-</ul>
+            @if (!string.IsNullOrEmpty(TempData["Message"] as string))
+            {
+                <div class="alert alert-success mt-3 mb-0">
+                    <strong>@TempData["Message"]</strong>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- WHAT'S NEXT -->
+<section class="container mt-4 mb-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5 mb-3">What's next?</h2>
+            <p class="text-muted">
+                I will continue to update this site while I search for my next opportunity.
+                Here’s what you can expect—feel free to reach out with suggestions or a job opportunity!
+            </p>
+
+            <ul class="mb-0">
+                <li>
+                    Front-end refresh using Bootstrap for a cleaner, mobile-friendly UI.
+                    <ul>
+                        <li>(UI/UX polish in progress — currently focusing on feature completeness while improving the layout.)</li>
+                    </ul>
+                </li>
+                <li>Add a <code>/api/meta</code> endpoint describing the project, tech stack, and useful links</li>
+                <li>Automatic reply to captured emails</li>
+                <li>Add unit tests to improve code quality and reliability</li>
+                <li>Structured logging to capture application behavior and errors</li>
+                <li>Graceful retry handling for transient API failures</li>
+                <li>Improve code readability through intentional documentation and clear naming</li>
+                <li>Persist data using SQLite or SQL Server</li>
+            </ul>
+        </div>
+    </div>
+</section>

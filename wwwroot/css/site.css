@@ -1,0 +1,4 @@
+﻿body { font-family: system-ui, -apple-system, 'Segoe UI', roboto, Arial, sans-serif;}
+h1,h2,h3 {letter-spacing: -0.02em;}
+details summary {cursor: pointer;}
+.badge{ font-weight: 500;}
