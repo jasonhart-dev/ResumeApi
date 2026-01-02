@@ -39,11 +39,12 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapControllers();
 app.MapRazorPages();
-app.UseStaticFiles();
 
 app.Run();
