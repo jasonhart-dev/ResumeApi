@@ -1,6 +1,6 @@
 ﻿# ResumeApi
 
-An interview-ready ASP.NET Core application that demonstrates API design, Razor Pages UI, versioned endpoints, and clean separation of concerns using a realistic resume-driven use case.
+An interview-ready ASP.NET Core application that demonstrates API design, Razor Pages UI, versioned endpoints, and production-oriented reliability patterns using a realistic resume-driven use case.
 
 ---
 
@@ -21,6 +21,14 @@ An interview-ready ASP.NET Core application that demonstrates API design, Razor 
 - Hire Me submission endpoint
 - Swagger / OpenAPI enabled
 
+### Logging & Reliability
+- Structured logging using Serilog
+- Console and rolling file log sinks
+- Request lifecycle logging (method, path, status, duration)
+- Centralized global exception handling
+- Standardized error responses using ProblemDetails
+- Graceful failure behavior with no unhandled exceptions leaking to clients
+
 ---
 
 ## Application Flow
@@ -33,7 +41,7 @@ An interview-ready ASP.NET Core application that demonstrates API design, Razor 
 6. Company + Job Title are submitted
 7. Resume page shows “Viewing for: JobTitle @ Company”
 8. User may Log Out to reset context
-9. About me page
+9. About Me page
 
 ---
 
@@ -42,9 +50,11 @@ An interview-ready ASP.NET Core application that demonstrates API design, Razor 
 - ASP.NET Core
 - Razor Pages
 - Web API
+- Serilog (structured logging)
 - Swagger / OpenAPI
 - Dependency Injection
 - IHttpClientFactory
+- API Versioning
 - In-memory services (no database yet)
 
 ---
@@ -58,10 +68,12 @@ An interview-ready ASP.NET Core application that demonstrates API design, Razor 
 ### Run
 
 From Visual Studio:
-- Press F5
+- Press **F5**
 
 Or from the command line:
+```bash
 dotnet run
+```
 
 ### Local URLs
 - Index page: https://localhost:<port>/
@@ -87,45 +99,57 @@ dotnet run
 - POST /api/v2/hireme
 
 Example request body:
+```json
 {
   "company": "Acme Corp",
   "jobTitle": "Senior Software Engineer"
 }
+```
 
 ---
 
 ## Swagger
- 
+
 Local:
+```
 https://localhost:<port>/swagger
+```
 
 After deployment:
+```
 https://hart-resume-api.azurewebsites.net/swagger
+```
 
 ---
 
 ## Postman
 
-You can call all APIs using Postman.
+All APIs can be exercised via Postman.
 
 Example:
+```
 GET https://hart-resume-api.azurewebsites.net/api/v2/resume/summary
+```
 
 Import Swagger into Postman:
+```
 https://hart-resume-api.azurewebsites.net/swagger/v1/swagger.json
+```
 
 ---
 
 ## Deployment (Azure)
 
-This application is designed to be deployed to Azure App Service.
+This application is deployed to **Azure App Service**.
 
 After deployment:
 - App URL: https://hart-resume-api.azurewebsites.net
 - Swagger UI available publicly
 - APIs accessible via browser or Postman
+- Logs written at runtime (console + rolling files)
 
-Note: The app currently uses in-memory storage. Restarting the app clears data. This is done every 6 hours via Azure Automation PowerShell script.
+**Note:** The app currently uses in-memory storage. Restarting the app clears data.  
+The app is restarted every 6 hours via an Azure Automation PowerShell script.
 
 ### Deployment URLs
 - Index page: https://hart-resume-api.azurewebsites.net/
@@ -136,18 +160,17 @@ Note: The app currently uses in-memory storage. Restarting the app clears data. 
 
 ## Future Enhancements
 
-###- Improve UI styling with Bootstrap or React
-###- Add a /api/meta endpoint describing the project, tech stack, and useful links
-###- Automatic reply to captured emails
-###- Add unit tests to improve code quality and reliability
-###- Structured logging to capture application behavior and errors
-###- Graceful retry handling for transient API failures
-###- Improve code readability through intentional documentation and clear naming
-###- Persist data using SQLite or SQL Server
+- Add HttpClient retry and timeout policies for outbound calls
+- Add health check endpoint for monitoring
+- Add unit and integration tests
+- Improve UI styling with Bootstrap or React
+- Persist data using SQLite or SQL Server
+- Add automatic email replies for captured emails
+- Add a /api/meta endpoint describing the project and architecture
 
 ---
 
 ## Author
 
-Jason Hart
+Jason Hart  
 Senior Software Engineer
