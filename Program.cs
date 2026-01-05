@@ -1,9 +1,27 @@
 using Microsoft.Extensions.Options;
 using ResumeApi.Services;
+using ResumeApi.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Reader;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithEnvironmentName()
+    .Enrich.WithProcessId()
+    .Enrich.WithThreadId()
+    .WriteTo.Console()
+    .WriteTo.File(
+        "Logs/log-.txt",
+        rollingInterval: Serilog.RollingInterval.Day,
+        retainedFileCountLimit: 7)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 
 // Add services to the container.
 
@@ -35,8 +53,25 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
+// Customize request logging to avoid duplicate exception stack traces.
+// Exceptions are logged centrally by GlobalExceptionMiddleware.
+app.UseSerilogRequestLogging(options =>
+{
+    options.GetLevel = (httpContext, elapsed, ex) =>
+    {
+        var statusCode = httpContext.Response.StatusCode;
+        return statusCode >= 400
+            ? Serilog.Events.LogEventLevel.Warning
+            : Serilog.Events.LogEventLevel.Information;
+    };
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

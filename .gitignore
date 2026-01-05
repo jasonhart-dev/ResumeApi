@@ -22,6 +22,9 @@ appsettings.Production.json
 ## Logs
 *.log
 
+# Serilog logs
+Logs/
+
 ## OS files
 .DS_Store
 Thumbs.db
