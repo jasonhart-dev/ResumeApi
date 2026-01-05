@@ -3,4 +3,7 @@
     <File Path="gitignore" />
   </Folder>
   <Project Path="ResumeApi.csproj" />
+  <Properties Name="ExtensibilityGlobals" Scope="PostLoad">
+    <Property Name="FileExplorer" Value="|Middleware\" />
+  </Properties>
 </Solution>
