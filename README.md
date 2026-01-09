@@ -31,6 +31,46 @@ An interview-ready ASP.NET Core application that demonstrates API design, Razor 
 
 ---
 
+## Testing & Coverage
+
+This project includes **automated unit and integration tests** to validate API behavior and ensure changes can be made safely.
+
+### Unit Tests
+- Controller-level unit tests using **xUnit**
+- Dependencies mocked with **Moq**
+- Verifies:
+  - HTTP 200 (OK) responses for valid requests
+  - HTTP 404 (Not Found) behavior for missing resources
+  - Correct DTOs returned from controller actions
+
+### Integration Tests
+- End-to-end API tests using **WebApplicationFactory**
+- Runs the application in-memory with real routing and dependency injection
+- Verifies:
+  - `/api/v2/resume/summary` returns HTTP 200 and valid payload
+  - Missing resources return proper HTTP status codes (404)
+
+### Code Coverage
+- Coverage collected using **Coverlet**
+- HTML coverage reports generated via **ReportGenerator**
+- Coverage highlights which API paths and controller logic are exercised by tests
+
+#### Run Tests
+```bash
+dotnet test ResumeApi.Tests/ResumeApi.Tests.csproj
+```
+
+#### Generate Coverage Report (HTML)
+A helper script is included to generate and open the coverage report:
+
+```bash
+coverage.cmd
+```
+
+The report opens automatically in a browser and visually shows covered vs. uncovered code paths.
+
+---
+
 ## Application Flow
 
 1. User lands on the Index page
@@ -55,7 +95,8 @@ An interview-ready ASP.NET Core application that demonstrates API design, Razor 
 - Dependency Injection
 - IHttpClientFactory
 - API Versioning
-- In-memory services (no database yet)
+- xUnit / Moq (testing)
+- Coverlet (code coverage)
 
 ---
 
@@ -155,14 +196,12 @@ The app is restarted every 6 hours via an Azure Automation PowerShell script.
 - Index page: https://hart-resume-api.azurewebsites.net/
 - Resume page: https://hart-resume-api.azurewebsites.net/Resume
 - Swagger UI: https://hart-resume-api.azurewebsites.net/swagger
-
 ---
 
 ## Future Enhancements
 
 - Add HttpClient retry and timeout policies for outbound calls
 - Add health check endpoint for monitoring
-- Add unit and integration tests
 - Improve UI styling with Bootstrap or React
 - Persist data using SQLite or SQL Server
 - Add automatic email replies for captured emails
