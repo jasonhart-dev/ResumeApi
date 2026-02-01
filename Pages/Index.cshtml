@@ -25,25 +25,10 @@
     </div>
 </section>
 
-<!-- QUICK CONTACT / DOWNLOAD -->
+<!-- WHY THIS PROJECT -->
 <section class="container mt-5">
     <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h2 class="h5 mb-3">Contact me!</h2>
-                    <p class="mb-3">
-                        <a href="mailto:j24hart@gmail.com?subject=@emailSubject" class="link-primary fw-semibold">j24hart@gmail.com</a>
-                    </p>
-
-                    <a class="btn btn-outline-primary" href="/files/Jason_Hart_Resume_12_30_API.docx" download>
-                        Download Resume (DOCX)
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card shadow-sm h-100">
                 <div class="card-body">
                     <h2 class="h5 mb-3">Why This Project?</h2>
@@ -67,6 +52,49 @@
         </div>
     </div>
 </section>
+
+@* <!-- QUICK CONTACT / DOWNLOAD -->
+<section class="container mt-5">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Why This Project?</h2>
+                    <p class="text-muted mb-3">
+                        This site demonstrates modern .NET API development by exposing resume data
+                        through versioned REST endpoints while also providing a simple UI for recruiters.
+                    </p>
+
+                    <ul class="mb-0">
+                        <li>ASP.NET Core Web API with versioned endpoints (v2)</li>
+                        <li>Self-describing API metadata endpoint (<code>/api/meta</code>)</li>
+                        <li>REST endpoints exposing resume and recruiter interaction data</li>
+                        <li>Swagger / OpenAPI documentation for interactive API testing</li>
+                        <li>Razor Pages UI enhanced with Bootstrap for a modern, responsive experience</li>
+                        <li>Intentional UX patterns (gated access, sticky actions, progressive disclosure)</li>
+                        <li>Admin view for captured recruiter interest (in-memory, ephemeral storage)</li>
+                        <li>GitHub source control with incremental, feature-focused commits</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Contact me!</h2>
+                    <p class="mb-3">
+                        <a href="mailto:j24hart@gmail.com?subject=@emailSubject" class="link-primary fw-semibold">j24hart@gmail.com</a>
+                    </p>
+
+                    <a class="btn btn-outline-primary" href="/files/Jason_Hart_Resume_12_30_API.docx" download>
+                        Download Resume (DOCX)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> *@
 
 <!-- HOW TO EXPLORE -->
 <section class="container mt-4">
@@ -101,6 +129,87 @@
                 </li>
 
             </ul>
+        </div>
+    </div>
+</section>
+
+<!-- TECH STACK SECTION -->
+<section class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5 mb-1">Tech Stack</h2>
+            <p class="text-muted">
+                This site is built with modern, production-ready technologies
+                across the full stack.
+            </p>
+
+            <!-- BACKEND & FRONTEND -->
+            <div class="row g-4 mt-0">
+                <div class="col-md-6">
+                    <h3 class="h6 text-primary fw-semibold mb-2">Backend</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary">C#</span>
+                        <span class="badge bg-primary">ASP.NET Core</span>
+                        <span class="badge bg-primary">.NET 10.0</span>
+                        <span class="badge bg-primary">REST APIs</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <h3 class="h6 text-success fw-semibold mb-2">Frontend</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-success">HTML5</span>
+                        <span class="badge bg-success">CSS3</span>
+                        <span class="badge bg-success">Bootstrap 5</span>
+                        <span class="badge bg-success">Razor Pages</span>
+                        <span class="badge bg-success">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOOLS & TESTING -->
+            <div class="row g-4 mt-1">
+                <div class="col-md-6">
+                    <h3 class="h6 text-info fw-semibold mb-2">Tools & Libraries</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-info">Swagger / OpenAPI</span>
+                        <span class="badge bg-info">Serilog</span>
+                        <span class="badge bg-info">Entity Framework</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <h3 class="h6 text-warning fw-semibold mb-2">Testing & Quality</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-warning text-dark">xUnit</span>
+                        <span class="badge bg-warning text-dark">Moq</span>
+                        <span class="badge bg-warning text-dark">Coverlet</span>
+                        <span class="badge bg-warning text-dark">Integration Tests</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CLOUD & ARCHITECTURE -->
+            <div class="row g-4 mt-1">
+                <div class="col-md-6">
+                    <h3 class="h6 text-danger fw-semibold mb-2">Cloud & Deployment</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-danger">Azure App Service</span>
+                        <span class="badge bg-danger">Azure DevOps</span>
+                        <span class="badge bg-danger">Git</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <h3 class="h6 text-secondary fw-semibold mb-2">Architecture & Patterns</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-secondary">MVC / Razor Pages</span>
+                        <span class="badge bg-secondary">Dependency Injection</span>
+                        <span class="badge bg-secondary">RESTful API Design</span>
+                        <span class="badge bg-secondary">API Versioning</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -180,6 +289,22 @@
                     <strong>@TempData["Message"]</strong>
                 </div>
             }
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT ME -->
+<section class="container mt-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <h2 class="h5 mb-3">Contact me!</h2>
+            <p class="mb-3">
+                <a href="mailto:j24hart@gmail.com?subject=@emailSubject" class="link-primary fw-semibold">j24hart@gmail.com</a>
+            </p>
+
+            <a class="btn btn-outline-primary" href="/files/Jason_Hart_Resume_12_30_API.docx" download>
+                Download Resume (DOCX)
+            </a>
         </div>
     </div>
 </section>
