@@ -51,5 +51,23 @@ namespace ResumeApi.Controllers
                 return StatusCode(500, new { error = "Failed to increment visit count" });
             }
         }
+
+        /// <summary>
+        /// Get audit history of visit count changes
+        /// </summary>
+        [HttpGet("audit")]
+        public async Task<IActionResult> GetAuditHistory([FromQuery] int limit = 100)
+        {
+            try
+            {
+                var history = await _visitCounterService.GetAuditHistoryAsync(limit);
+                return Ok(history);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving audit history");
+                return StatusCode(500, new { error = "Failed to retrieve audit history" });
+            }
+        }
     }
 }

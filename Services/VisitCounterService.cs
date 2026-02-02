@@ -1,5 +1,7 @@
-﻿using ResumeApi.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ResumeApi.Data;
 using ResumeApi.Models;
+using System.Collections.Generic;
 
 namespace ResumeApi.Services
 {
@@ -7,6 +9,7 @@ namespace ResumeApi.Services
     {
         Task<long> IncrementVisitAsync();
         Task<long> GetVisitCountAsync();
+        Task<List<VisitCounterAudit>> GetAuditHistoryAsync(int limit = 100);
     }
 
     public class VisitCounterService : IVisitCounterService
@@ -57,6 +60,24 @@ namespace ResumeApi.Services
             {
                 _logger.LogError(ex, "Error retrieving visit counter");
                 return 0;
+            }
+        }
+
+        public async Task<List<VisitCounterAudit>> GetAuditHistoryAsync(int limit = 100)
+        {
+            try
+            {
+                return await _context.VisitCountersAudit
+                    .OrderByDescending(a => a.UpdatedAt)
+                    .Take(limit)
+                    .ToListAsync();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving audit history");
+                return new List<VisitCounterAudit>();
+                throw;
             }
         }
     }
