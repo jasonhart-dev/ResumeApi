@@ -11,10 +11,16 @@ namespace ResumeApi.Data
         }
 
         public DbSet<VisitCounter> VisitCounters { get; set; } = null!;
+        public DbSet<VisitCounterAudit> VisitCountersAudit { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Configure VisitCounters to disable the OUTPUT clause for updates
+            // This is required because the table has a trigger
+            modelBuilder.Entity<VisitCounter>()
+                .ToTable(tb => tb.HasTrigger("trg_VisitCounters_Audit"));
 
             // Seed initial visit counter
             modelBuilder.Entity<VisitCounter>().HasData(
