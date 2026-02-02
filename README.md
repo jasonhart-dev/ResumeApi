@@ -1,6 +1,6 @@
 ﻿# ResumeApi
 
-An interview-ready ASP.NET Core application that demonstrates API design, Razor Pages UI, versioned endpoints, and production-oriented reliability patterns using a realistic resume-driven use case.
+An interview-ready ASP.NET Core application that demonstrates API design, Razor Pages UI, versioned endpoints, persistent database storage, and production-oriented reliability patterns using a realistic resume-driven use case.
 
 ---
 
@@ -10,16 +10,31 @@ An interview-ready ASP.NET Core application that demonstrates API design, Razor 
 - Email capture entry page
 - Resume display page
 - Professional Summary and Experience loaded via API calls
-- “Hire Me” interaction flow (Company + Job Title)
+- "Hire Me" interaction flow (Company + Job Title)
 - Contextual banner showing which role the resume is being viewed for
 - Logout action that resets view context and returns to entry page
+- **NEW:** Live visit counter displayed on homepage (persists across restarts)
 
 ### API
 - Versioned REST APIs (/api/v2/...)
 - Resume data endpoints (read-only)
 - Email capture endpoint
 - Hire Me submission endpoint
+- **NEW:** Visit Counter endpoints:
+  - `GET /api/visitcounter` - Get current visit count
+  - `POST /api/visitcounter/increment` - Increment and return new total
+  - `GET /api/visitcounter/audit?limit=100` - Get audit history
 - Swagger / OpenAPI enabled
+
+### Database & Persistence
+- **NEW:** Azure SQL Database integration using Entity Framework Core
+- **NEW:** Visit counter with persistent storage across app restarts
+- **NEW:** Automatic audit trail tracking all visit count changes via SQL Server trigger
+- Structured data models:
+  - `VisitCounter` - Tracks total visits
+  - `VisitCountersAudit` - Audit log of all visit count changes
+- ApplicationDbContext for all database operations
+- Entity Framework Core migrations for schema management
 
 ### Logging & Reliability
 - Structured logging using Serilog
@@ -74,56 +89,148 @@ The report opens automatically in a browser and visually shows covered vs. uncov
 ## Application Flow
 
 1. User lands on the Index page
-2. Enters an email address
-3. Redirected to Resume page
-4. Resume data is retrieved via API calls
-5. User can click Hire Me
-6. Company + Job Title are submitted
-7. Resume page shows “Viewing for: JobTitle @ Company”
-8. User may Log Out to reset context
-9. About Me page
+2. Visits are automatically tracked and persisted to the database
+3. Live visit counter displays at the bottom of the page
+4. User enters an email address
+5. Redirected to Resume page
+6. Resume data is retrieved via API calls
+7. User can click Hire Me
+8. Company + Job Title are submitted
+9. Resume page shows "Viewing for: JobTitle @ Company"
+10. User may Log Out to reset context
+11. About Me page
 
 ---
 
 ## Tech Stack
 
-- ASP.NET Core
+### Backend
+- ASP.NET Core (.NET 10.0)
+- C# 12
+- Entity Framework Core 10.0
+- Microsoft SQL Server
+
+### Frontend
 - Razor Pages
-- Web API
-- Serilog (structured logging)
+- Bootstrap 5
+- HTML5 / CSS3
+- JavaScript
+
+### API & Documentation
+- RESTful Web API
 - Swagger / OpenAPI
-- Dependency Injection
-- IHttpClientFactory
 - API Versioning
-- xUnit / Moq (testing)
+
+### Database
+- Azure SQL Database
+- Entity Framework Core migrations
+- SQL Server triggers
+
+### Logging & Monitoring
+- Serilog (structured logging)
+- Rolling file logs
+
+### Testing & Quality
+- xUnit (unit testing)
+- Moq (mocking)
 - Coverlet (code coverage)
+- WebApplicationFactory (integration testing)
+
+### Dependency Injection
+- ASP.NET Core DI Container
+- Service registration and lifetime management
 
 ---
 
 ## Running Locally
 
 ### Prerequisites
-- .NET SDK installed
-- Visual Studio 2022 or newer (optional)
+- .NET 10.0 SDK or later
+- Visual Studio 2022 or VS Code
+- Azure SQL Database (or local SQL Server)
+- SSMS (SQL Server Management Studio) for database management
 
-### Run
+### Setup
 
-From Visual Studio:
-- Press **F5**
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/jasonhart-dev/ResumeApi.git
+   cd ResumeApi
+   ```
 
-Or from the command line:
-```bash
-dotnet run
-```
+2. **Configure your connection string**
+   
+   Update `appsettings.json` with your Azure SQL Database connection string:
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=tcp:your-server.database.windows.net,1433;Initial Catalog=your-db;Persist Security Info=False;User ID=your-user;Password=your-password;..."
+     }
+   }
+   ```
+
+3. **Apply database migrations**
+   ```bash
+   dotnet ef database update
+   ```
+
+4. **Run the application**
+   
+   From Visual Studio:
+   - Press **F5**
+
+   Or from command line:
+   ```bash
+   dotnet run
+   ```
 
 ### Local URLs
 - Index page: https://localhost:<port>/
 - Resume page: https://localhost:<port>/Resume
 - Swagger UI: https://localhost:<port>/swagger
+- About page: https://localhost:<port>/About
+
+---
+
+## Database Architecture
+
+### VisitCounters Table
+Tracks the total number of visits to the application.
+
+| Column | Type | Notes |
+|--------|------|-------|
+| Id | int | Primary Key |
+| TotalVisits | bigint | Running total of all visits |
+| LastUpdated | datetime2 | UTC timestamp of last visit |
+
+### VisitCountersAudit Table
+Automatically populated by SQL trigger to track every visit count change.
+
+| Column | Type | Notes |
+|--------|------|-------|
+| Id | int | Primary Key |
+| PreviousVisitCount | bigint | Visit count before increment |
+| NewVisitCount | bigint | Visit count after increment |
+| UpdatedAt | datetime2 | UTC timestamp when trigger fired |
+| Action | nvarchar(50) | Action type (e.g., "Increment") |
+
+### SQL Trigger
+`trg_VisitCounters_Audit` - Automatically inserts audit records whenever the VisitCounters table is updated.
 
 ---
 
 ## API Endpoints
+
+### Visit Counter
+- **GET** `/api/visitcounter` - Get current visit count
+  - Response: `{ "totalVisits": 42 }`
+
+- **POST** `/api/visitcounter/increment` - Increment counter
+  - Response: `{ "totalVisits": 43 }`
+
+- **GET** `/api/visitcounter/audit?limit=100` - Get audit history
+  - Response: Array of audit records with timestamps and counts
+  - Query parameter `limit` (optional, default: 100) - Maximum records to return
 
 ### Resume (v2)
 - GET /api/v2/resume/summary
@@ -170,6 +277,7 @@ All APIs can be exercised via Postman.
 Example:
 ```
 GET https://hart-resume-api.azurewebsites.net/api/v2/resume/summary
+POST https://hart-resume-api.azurewebsites.net/api/visitcounter/increment
 ```
 
 Import Swagger into Postman:
@@ -181,31 +289,68 @@ https://hart-resume-api.azurewebsites.net/swagger/v1/swagger.json
 
 ## Deployment (Azure)
 
-This application is deployed to **Azure App Service**.
+This application is deployed to **Azure App Service** with **Azure SQL Database**.
 
-After deployment:
-- App URL: https://hart-resume-api.azurewebsites.net
-- Swagger UI available publicly
-- APIs accessible via browser or Postman
-- Logs written at runtime (console + rolling files)
-
-**Note:** The app currently uses in-memory storage. Restarting the app clears data.  
-The app is restarted every 6 hours via an Azure Automation PowerShell script.
+### Deployment Features
+- Data persists across app restarts
+- Visit counter maintains accurate running total
+- Audit trail automatically captured for all changes
+- Structured logging to Application Insights (optional)
 
 ### Deployment URLs
+- App URL: https://hart-resume-api.azurewebsites.net
 - Index page: https://hart-resume-api.azurewebsites.net/
 - Resume page: https://hart-resume-api.azurewebsites.net/Resume
 - Swagger UI: https://hart-resume-api.azurewebsites.net/swagger
+
+### App Restart Schedule
+The app is restarted every 6 hours via Azure Automation. Visit counter data is preserved in the database.
+
+---
+
+## Recent Updates
+
+### Phase 1-2: Visit Counter with Azure SQL Database
+- Integrated Entity Framework Core with SQL Server provider
+- Created VisitCounter model and ApplicationDbContext
+- Implemented VisitCounterService with increment/query logic
+- Created VisitCounterController with REST endpoints
+- Added live visit counter display to homepage
+- Data persists across app restarts
+
+### Phase 3: Audit Trail with SQL Trigger
+- Created VisitCountersAudit table for tracking changes
+- Implemented SQL Server trigger for automatic audit logging
+- Added GetAuditHistoryAsync service method with limit parameter
+- Created GET /api/visitcounter/audit endpoint
+- Configured EF Core to work with database triggers
+
 ---
 
 ## Future Enhancements
 
-- Add HttpClient retry and timeout policies for outbound calls
-- Add health check endpoint for monitoring
-- Improve UI styling with Bootstrap or React
-- Persist data using SQLite or SQL Server
-- Add automatic email replies for captured emails
-- Add a /api/meta endpoint describing the project and architecture
+- [ ] Persist captured emails to database (with optional restoration)
+- [ ] Email analytics and reporting dashboard
+- [ ] Add date range filtering for audit history
+- [ ] Health check endpoint for monitoring
+- [ ] HttpClient retry and timeout policies for outbound calls
+- [ ] Automatic email replies for captured emails
+- [ ] Visit analytics dashboard with charts and trends
+- [ ] Database performance optimization (indexing, query optimization)
+- [ ] Backup and disaster recovery automation
+
+---
+
+## Development Workflow
+
+This project uses feature branch development with pull requests:
+
+1. Create a feature branch: `git checkout -b feature/feature-name`
+2. Make changes and commit: `git commit -m "feat: description"`
+3. Push to remote: `git push origin feature/feature-name`
+4. Create a Pull Request on GitHub
+5. Review and merge to main
+6. Delete feature branch
 
 ---
 
@@ -213,3 +358,9 @@ The app is restarted every 6 hours via an Azure Automation PowerShell script.
 
 Jason Hart  
 Senior Software Engineer
+
+---
+
+## License
+
+MIT License - See LICENSE file for details
