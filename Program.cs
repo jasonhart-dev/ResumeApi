@@ -4,6 +4,8 @@ using ResumeApi.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Reader;
 using Serilog;
+using ResumeApi.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,10 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+// Add DbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IVisitCounterService, VisitCounterService>();
 
 // Add services to the container.
 
