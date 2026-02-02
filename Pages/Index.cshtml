@@ -294,3 +294,38 @@
         </div>
     </div>
 </section>
+
+<!-- VISIT COUNTER -->
+<section class="container mt-5 mb-5">
+    <div class="text-center text-muted small">
+        <p>Visitors to this page: <strong id="visitCounter">Loading...</strong></p>
+    </div>
+</section>
+
+<script>
+    // Increment visit counter when page loads
+    async function incrementVisitCounter() {
+        try {
+            const response = await fetch('/api/visitcounter/increment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('visitCounter').textContent = data.totalVisits.toLocaleString();
+            } else {
+                console.error('Failed to increment visit counter');
+                document.getElementById('visitCounter').textContent = 'N/A';
+            }
+        } catch (error) {
+            console.error('Error calling visit counter API:', error);
+            document.getElementById('visitCounter').textContent = 'N/A';
+        }
+    }
+
+    // Call the API when page loads
+    document.addEventListener('DOMContentLoaded', incrementVisitCounter);
+</script>
