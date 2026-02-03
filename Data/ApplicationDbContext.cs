@@ -13,6 +13,8 @@ namespace ResumeApi.Data
         public DbSet<VisitCounter> VisitCounters { get; set; } = null!;
         public DbSet<VisitCounterAudit> VisitCountersAudit { get; set; } = null!;
 
+        public DbSet<CapturedEmail> CapturedEmails { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
