@@ -303,29 +303,53 @@
 </section>
 
 <script>
-    // Increment visit counter when page loads
-    async function incrementVisitCounter() {
-        try {
-            const response = await fetch('/api/visitcounter/increment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+  document.addEventListener('DOMContentLoaded', () => {
+    incrementVisitCounterWithRetry();
+  });
 
-            if (response.ok) {
-                const data = await response.json();
-                document.getElementById('visitCounter').textContent = data.totalVisits.toLocaleString();
-            } else {
-                console.error('Failed to increment visit counter');
-                document.getElementById('visitCounter').textContent = 'N/A';
-            }
-        } catch (error) {
-            console.error('Error calling visit counter API:', error);
-            document.getElementById('visitCounter').textContent = 'N/A';
+  async function incrementVisitCounterWithRetry(maxRetries = 5) {
+    const endpoint = '/api/visitcounter/increment';
+    const counterEl = document.getElementById('visitCounter');
+    if (!counterEl) return;
+
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+    // how long we allow each attempt to wait before we abort and retry
+    const perAttemptTimeoutMs = 15000; // 15s is a good starting point
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      counterEl.textContent = attempt === 1
+        ? 'Waking database...'
+        : `Retrying (${attempt}/${maxRetries})...`;
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), perAttemptTimeoutMs);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
         }
+
+        const data = await response.json();
+        counterEl.textContent = Number(data.totalVisits).toLocaleString();
+        return;
+      } catch (err) {
+        clearTimeout(timeoutId);
+
+        // Backoff: 2s, 4s, 8s, 12s, 12s...
+        const delayMs = Math.min(12000, 2000 * Math.pow(2, attempt - 1));
+        await sleep(delayMs);
+      }
     }
 
-    // Call the API when page loads
-    document.addEventListener('DOMContentLoaded', incrementVisitCounter);
+    counterEl.textContent = 'N/A';
+  }
 </script>
